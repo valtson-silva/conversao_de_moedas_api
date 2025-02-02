@@ -1,0 +1,37 @@
+services:
+  web:
+    build: .
+    container_name: converter_api
+    command: gunicorn crypto_converter.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./converter_api:/converter_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    restart: always
+
+  db:
+    image: postgres:17.2
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    restart: always
+
+  redis:
+    image: redis:alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    restart: always

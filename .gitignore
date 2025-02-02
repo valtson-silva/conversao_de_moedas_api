@@ -1,0 +1,8 @@
+# configurações e credenciais
+.env
+
+# ambiente virtual
+.venv
+
+# cache do python
+__pycache__/
