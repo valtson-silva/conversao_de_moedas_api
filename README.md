@@ -53,7 +53,6 @@ docker-compose build
 
 # 2. Subir os containers
 docker-compose up -d
-
 ```
 
 <br/>
