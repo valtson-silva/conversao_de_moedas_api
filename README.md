@@ -40,7 +40,7 @@ Para instalar o Postgresql, acesse: https://www.postgresql.org/download/
 
 Para instalar o Docker, acesse: https://www.docker.com/
 
-Execute esses comandos no terminal para usar o docker:
+Execute esses comandos no terminal para usar o docker e rodar o projeto:
 ```
 # 1. Construir a imagem do Docker
 docker-compose build
