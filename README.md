@@ -40,12 +40,6 @@ Para instalar o Postgresql, acesse: https://www.postgresql.org/download/
 
 Para instalar o Docker, acesse: https://www.docker.com/
 
-
-Execute esse comando no terminal para instalar o Django e todas as bibliotecas, que estão no projeto:
-```
-pip install -r requirements.txt
-```
-
 Execute esses comandos no terminal para usar o docker:
 ```
 # 1. Construir a imagem do Docker
