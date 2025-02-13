@@ -15,15 +15,15 @@ class ConversionCryptoView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        # Obtém a moeda origem
+        
         from_currency = request.data["from_currency"]
-        # Obtém a moeda destino
+        
         to_currency = request.data["to_currency"]
-        # Obtém o valor
+        
         amount = request.data["amount"]
-        # Faz a conversão
+        
         conversion = convert_currency_crypto(from_currency, to_currency, amount)
-        # Faz o dicionário com as informações obtidas
+        
         data = {
             "from_currency": from_currency,
             "to_currency": to_currency,
@@ -32,9 +32,9 @@ class ConversionCryptoView(APIView):
             "conversion_rate": float(conversion["conversion_rate"])
         }
         
-        # Serializa os dados
+        
         serializer = ConversionHistorySerializer(data=data)
-        # Verifica se os dados são válidos
+        
         if serializer.is_valid():
             # Salva a conversão no banco de dados
             serializer.save()
@@ -49,26 +49,26 @@ class ConversionCryptoView(APIView):
             # Retorna a conversão e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            # Retorna error e o status 400
+            
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class ConversionCoinView(APIView):
     # Registra a conversão de moedas tradicionais no banco de dados
     
-    # Verifica se o usuário está autenticado
+    
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        # Obtém a moeda origem
+        
         from_currency = request.data["from_currency"]
-        # Obtém a moeda destino
+        
         to_currency = request.data["to_currency"]
-        # Obtém o valor
+        
         amount = request.data["amount"]
-        # Faz a conversão
+        
         conversion = convert_currency_coin(from_currency, to_currency, amount)
         
-        # Faz o dicionário com as informações obtidas
+        
         data = {
             "from_currency": from_currency,
             "to_currency": to_currency,
@@ -77,9 +77,9 @@ class ConversionCoinView(APIView):
             "conversion_rate": conversion["conversion_rate"]
         }
         
-        # Serializa os dados
+        
         serializer = ConversionHistorySerializer(data=data)
-        # Verifica se os dados são válidos
+        
         if serializer.is_valid():
             # Salva a conversão no banco de dados
             serializer.save()
@@ -94,16 +94,16 @@ class ConversionCoinView(APIView):
              # Retorna a conversão e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            # Retorna error e o status 400
+            
             return Response({"error": "Dados informados inválidos."}, status=status.HTTP_400_BAD_REQUEST)
         
 class RegisterUserView(APIView):
     # Registra um usuário
     
     def post(self, request):
-        # Serializa o dados recebidos no corpo da requisição
+        
         serializer = UserSerializer(data=request.data)
-        # Verifica se os dados são válidos
+        
         if serializer.is_valid():
             # Salva o usuário no banco de dados
             serializer.save()
@@ -111,13 +111,13 @@ class RegisterUserView(APIView):
             # Retorna o usuário criado e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            # Retorna error e o status 400
+            
             return Response({"error": "Dados inválidos"}, status=status.HTTP_400_BAD_REQUEST)
         
 class ConversionListView(APIView):
     # Mostra todas as conversões feitas
     
-    # Verifica se o usuário está autenticado
+    
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
