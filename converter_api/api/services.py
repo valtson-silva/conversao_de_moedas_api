@@ -47,7 +47,7 @@ def convert_currency_crypto(from_currency, to_currency, amount):
             cache.set(cache_key, json.dumps(data_cache), timeout=3600)
         
         else:
-            # Retorna error
+            
             raise ValidationError("Conversão não permitida.")
         
     # Retorna o valor da conversão e a taxa
@@ -88,6 +88,6 @@ def convert_currency_coin(from_currency, to_currency, amount):
             # Retorna o valor da conversão e a taxa 
             return {"convert_amount": float(amount) * conversion_rate, "conversion_rate": conversion_rate}
         else:
-            # Retorna error
+            
             raise ValidationError("Essa conversão não é permitida.")
             
