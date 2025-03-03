@@ -10,8 +10,7 @@ import json
 
 class ConversionCryptoView(APIView):
     # Registra a conversão de cripto no banco de dados
-    
-    # Verifica se o usuário está autenticado
+
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
@@ -29,14 +28,10 @@ class ConversionCryptoView(APIView):
             "conversion_rate": float(conversion["conversion_rate"])
         }
         
-        
         serializer = ConversionHistorySerializer(data=data)
         
         if serializer.is_valid():
-            # Salva a conversão no banco de dados
             serializer.save()
-            
-            # Deleta o cache antigo 
             cache.delete("conversion_list")
             # Salva o cache atualizado
             conversions = ConversionHistory.objects.all()
@@ -45,7 +40,6 @@ class ConversionCryptoView(APIView):
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class ConversionCoinView(APIView):
@@ -72,8 +66,6 @@ class ConversionCoinView(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            
-            # Deleta o cache antigo 
             cache.delete("conversion_list")
             # Salva o cache atualizado
             conversions = ConversionHistory.objects.all()
@@ -82,7 +74,6 @@ class ConversionCoinView(APIView):
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            
             return Response({"error": "Dados informados inválidos."}, status=status.HTTP_400_BAD_REQUEST)
         
 class RegisterUserView(APIView):
@@ -92,7 +83,6 @@ class RegisterUserView(APIView):
         serializer = UserSerializer(data=request.data)
         
         if serializer.is_valid():
-            
             serializer.save()
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)

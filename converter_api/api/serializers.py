@@ -16,7 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["username", "password", "email"]
         
     def validate(self, data):
-        # Verifica se o username já foi usado
         if User.objects.filter(username=data["username"]).exists():
             raise serializers.ValidationError("Esse username está atribuido a outro usuário.")
         return data

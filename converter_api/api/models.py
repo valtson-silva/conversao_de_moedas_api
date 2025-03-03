@@ -26,12 +26,10 @@ class ConversionHistory(models.Model):
         if self.to_currency not in self.valid_currencies:
             raise ValidationError(f"Moeda de destino '{self.to_currency}' não é válida.")
         
-        # Verifica se as moedas de destino e origem são iguais
         if self.to_currency == self.from_currency:
             raise ValidationError(f"Moeda de destino e moeda de origem precisam ser diferentes.")
         
     def save(self, *args, **kwargs):
-        # Chama a validação antes de salvar
         self.clean()
         
         super().save(*args, **kwargs)
