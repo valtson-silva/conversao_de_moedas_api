@@ -15,11 +15,8 @@ class ConversionCryptoView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        
         from_currency = request.data["from_currency"]
-        
         to_currency = request.data["to_currency"]
-        
         amount = request.data["amount"]
         
         conversion = convert_currency_crypto(from_currency, to_currency, amount)
@@ -46,7 +43,6 @@ class ConversionCryptoView(APIView):
             cache_serializer = ConversionHistorySerializer(conversions, many=True)
             cache.set("conversion_list", json.dumps(cache_serializer.data), timeout=60*300)
             
-            # Retorna a conversão e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             
@@ -55,19 +51,14 @@ class ConversionCryptoView(APIView):
 class ConversionCoinView(APIView):
     # Registra a conversão de moedas tradicionais no banco de dados
     
-    
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        
         from_currency = request.data["from_currency"]
-        
         to_currency = request.data["to_currency"]
-        
         amount = request.data["amount"]
         
         conversion = convert_currency_coin(from_currency, to_currency, amount)
-        
         
         data = {
             "from_currency": from_currency,
@@ -77,11 +68,9 @@ class ConversionCoinView(APIView):
             "conversion_rate": conversion["conversion_rate"]
         }
         
-        
         serializer = ConversionHistorySerializer(data=data)
         
         if serializer.is_valid():
-            # Salva a conversão no banco de dados
             serializer.save()
             
             # Deleta o cache antigo 
@@ -91,7 +80,6 @@ class ConversionCoinView(APIView):
             cache_serializer = ConversionHistorySerializer(conversions, many=True)
             cache.set("conversion_list", json.dumps(cache_serializer.data), timeout=60*300)
             
-             # Retorna a conversão e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             
@@ -101,42 +89,32 @@ class RegisterUserView(APIView):
     # Registra um usuário
     
     def post(self, request):
-        
         serializer = UserSerializer(data=request.data)
         
         if serializer.is_valid():
-            # Salva o usuário no banco de dados
+            
             serializer.save()
             
-            # Retorna o usuário criado e o status 201
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            
             return Response({"error": "Dados inválidos"}, status=status.HTTP_400_BAD_REQUEST)
         
 class ConversionListView(APIView):
     # Mostra todas as conversões feitas
     
-    
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
-        # Tenta obter o todas as conversões
         cache_list = cache.get("conversion_list")
         
-        # Verifica se o cache existe
         if not cache_list:
-            # Obtém todas as conversões
             conversions = ConversionHistory.objects.all()
-            # Serializa todas as conversões
             serializer = ConversionHistorySerializer(conversions, many=True)
             
             # Salva todas as conversões no cache por 5 horas
             cache.set("conversion_list", json.dumps(serializer.data), timeout=60*300)
             
-            # Retorna as conversões e o status 200
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            # Retorna as conversões e o status 200
             return Response(json.loads(cache_list), status=status.HTTP_200_OK)
         
