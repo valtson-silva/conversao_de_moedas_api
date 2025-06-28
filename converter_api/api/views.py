@@ -7,7 +7,7 @@ from .api_services import conversion_coin, conversion_crypto, conversion_delete,
 
 
 class ConversionCryptoView(APIView):
-    """Registra a conversão de cripto no banco de dados"""
+    """Faz a conversão de cripto"""
     
     def post(self, request):
         try:
@@ -19,7 +19,7 @@ class ConversionCryptoView(APIView):
         
         
 class ConversionCoinView(APIView):
-    """Registra a conversão de moedas tradicionais no banco de dados"""
+    """Faz a conversão de moedas tradicionais"""
     
     def post(self, request):
         try:
