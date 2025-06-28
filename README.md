@@ -16,6 +16,7 @@ Além disso, utiliza cache com Redis para otimização de desempenho e oferece s
 - Autenticação e Segurança
 - Integração com Banco de Dados
 - Docker para Implantação
+- Testes automatizados com Pytest
 <br/>
 
 ## 📡 Tecnologias utilizadas 
